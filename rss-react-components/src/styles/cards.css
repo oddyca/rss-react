@@ -1,0 +1,32 @@
+.cards-container {
+  display: flex;
+  gap: 12px;
+}
+
+.cards {
+  width: 256px;
+  height: 164px;
+  background-color: #404b5a;
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.card-title {
+  background-color: #28323f;
+  width: 100%;
+  padding-top: 8px;
+  display: flex;
+  justify-content: flex-start;
+  padding: 8px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px;
+}
