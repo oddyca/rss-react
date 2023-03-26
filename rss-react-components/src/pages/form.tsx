@@ -13,7 +13,7 @@ export default class Form extends React.Component<FormProps, FormState> {
   fileInput: React.RefObject<HTMLInputElement>;
   //handleFormInputChange: Function;
 
-  constructor(props: {}) {
+  constructor(props: FormProps) {
     super(props);
     this.state = {
       name: '',
@@ -23,6 +23,7 @@ export default class Form extends React.Component<FormProps, FormState> {
       checkbox: false,
       switcher: '',
       file: '',
+      cards: [],
       errors: {
         name: '',
         surname: '',
@@ -48,12 +49,53 @@ export default class Form extends React.Component<FormProps, FormState> {
   }
 
   handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    
+    const { name, value, type } = e.target;
+    const isChecked = (e.target as HTMLInputElement).checked;
+
+    if (name === "name") {
+      this.setState({...this.state, name: value});
+    } else if (name === "surname") {
+      this.setState({...this.state, surname: value});
+    } else if (name === "date") {
+      this.setState({...this.state, date: value});
+    } else if (type === "checkbox") {
+      this.setState({...this.state, checkbox: isChecked});
+    } else if (type === 'file') {
+      this.setState({...this.state, file: this.fileInput.current?.files?.[0]?.name ?? ''});
+    }     
+
   };
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  }
+
+    const { name, surname, switcher, date, file, cards } = this.state;
+
+    if (!name || !surname || !switcher || !date || !file) {
+      alert('Please fill out all fields.');
+      return;
+    }
+    if (name && !/^[A-Z][a-z]*$/.test(name)) {
+      alert('First name must start with an uppercased letter.');
+      if (this.nameInput) {
+        this.nameInput.current?.focus();
+      }
+      return;
+    }
+    if (!/^[A-Z][a-z]*$/.test(surname)) {
+      alert('Last name must start with an uppercased letter.');
+      if (surname && !/^[A-Z][a-z]*$/.test(surname)) {
+        alert('First name must start with an uppercased letter.');
+        if (this.surnameInput) {
+          this.surnameInput.current?.focus();
+        }
+      return;
+    }
+
+    this.setState({...this.state, cards: [{}]})
+
+    this.props.handleSubmittedData(this.state.cards)
+  }}
 
   render() {
     return (
@@ -133,7 +175,15 @@ export default class Form extends React.Component<FormProps, FormState> {
               required
             />
           </div>
-          <button type="submit">
+          <div className="form-row">
+            <label htmlFor="pfp-upload">Upload your profile picture</label>
+            <input
+              type="file"
+              id="pfp-upload"
+              required
+            />
+          </div>
+          <button type="submit" className="submit-form-btn">
             Submit
           </button>
         </form>

@@ -1,7 +1,8 @@
 import React, { RefObject } from "react";
 
 export interface AppState {
-  inputValue: string
+  inputValue: string,
+  submittedData: []
 }
 
 export interface SearchBarState {
@@ -9,17 +10,18 @@ export interface SearchBarState {
 }
 
 export type FormProps = {
-
+  handleSubmittedData: Function
 }
 
 export type FormState = {
   name: string,
-  surname: '',
+  surname: string,
   date: string,
   selection: string,
   checkbox: boolean,
   switcher: string,
-  file: string,
+  file: string | undefined,
+  cards: Object[],
   errors: {
     name: string,
     surname: string,

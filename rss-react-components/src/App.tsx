@@ -11,16 +11,29 @@ import "./styles/style.css"
 import { AppState } from 'types/types'
 
 export default class App extends React.Component <{}, AppState> {
-  state: AppState = { inputValue: '' }
+  constructor(props: {}) {
+    super(props);
+
+    this.state = { 
+      inputValue: '',
+      submittedData: []
+    }
+
+    this.onChange = this.onChange.bind(this);
+    this.handleSubmittedData = this.handleSubmittedData.bind(this);
+  }
 
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({inputValue: e.target.value})
   }
 
+  handleSubmittedData = (data: []) => {
+    this.setState({...this.state, submittedData: data})
+  }
+
   render() {
     return (
       <>
-
         <Header />
         <Routes>
           <Route
@@ -33,7 +46,7 @@ export default class App extends React.Component <{}, AppState> {
           />
           <Route
             path="/form"
-            element={<Form />}
+            element={<Form submittedData={this.handleSubmittedData}/>}
           />
           <Route
             path="/404"
