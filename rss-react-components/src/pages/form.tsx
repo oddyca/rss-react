@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { FormProps, FormState } from '../types/types';
 
+import "../styles/form-styles.css"
+
 export default class Form extends React.Component<FormProps, FormState> {
   nameInput: React.RefObject<HTMLInputElement>;
   dateInput: React.RefObject<HTMLInputElement>;
@@ -47,22 +49,33 @@ export default class Form extends React.Component<FormProps, FormState> {
   }
   render() {
     return (
-      <div>
-        <form>
-          <div>
+      <div className="form-container">
+        <form className="form-content">
+          <div className="form-row">
             <label htmlFor="name">Name:</label>
-            <input type="text" id="name" name="name" ref={this.nameInput} value={this.state.name} onChange={this.handleFormInputChange} />
-            {this.state.errors.name && <span>{this.state.errors.name}</span>}
-          </div>
-
-          <div>
-            <label htmlFor="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" ref={this.nameInput} value={this.state.surname} onChange={this.handleFormInputChange} />
+            <input
+              type="text"
+              id="surname"
+              name="surname"
+              ref={this.nameInput}
+              value={this.state.surname}
+              onChange={this.handleFormInputChange} />
             {this.state.errors.surname && <span>{this.state.errors.surname}</span>}
+          </div>
+          <div className="form-row">
+            
+            <label htmlFor="surname">Surname:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              ref={this.nameInput}
+              value={this.state.name}
+              onChange={this.handleFormInputChange} />
+            {this.state.errors.name && <span>{this.state.errors.name}</span>}
           </div>
         </form>
       </div>
     )
   }
 }
-
