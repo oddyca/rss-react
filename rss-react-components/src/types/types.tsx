@@ -1,16 +1,19 @@
 import React, { RefObject } from "react";
 
 export interface AppState {
-  inputValue: string,
-  submittedData: []
+  inputValue: string
 }
 
 export interface SearchBarState {
   value: string;
 }
 
+export type HomeState = {
+  submittedData: Object[] | undefined
+}
+
 export type FormProps = {
-  handleSubmittedData: Function
+  handleSubmittedData: Function | undefined
 }
 
 export type FormState = {
@@ -18,7 +21,7 @@ export type FormState = {
   surname: string,
   date: string,
   selection: string,
-  checkbox: boolean,
+  //checkbox: boolean,
   switcher: string,
   file: string | undefined,
   cards: Object[],

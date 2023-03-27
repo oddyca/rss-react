@@ -15,21 +15,16 @@ export default class App extends React.Component <{}, AppState> {
     super(props);
 
     this.state = { 
-      inputValue: '',
-      submittedData: []
+      inputValue: ''
     }
-
     this.onChange = this.onChange.bind(this);
-    this.handleSubmittedData = this.handleSubmittedData.bind(this);
   }
 
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({inputValue: e.target.value})
   }
 
-  handleSubmittedData = (data: []) => {
-    this.setState({...this.state, submittedData: data})
-  }
+  
 
   render() {
     return (
@@ -46,7 +41,7 @@ export default class App extends React.Component <{}, AppState> {
           />
           <Route
             path="/form"
-            element={<Form submittedData={this.handleSubmittedData}/>}
+            element={<Form handleSubmittedData={undefined} />}
           />
           <Route
             path="/404"

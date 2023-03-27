@@ -20,7 +20,7 @@ export default class Form extends React.Component<FormProps, FormState> {
       surname: '',
       date: '',
       selection: '',
-      checkbox: false,
+      //checkbox: false,
       switcher: '',
       file: '',
       cards: [],
@@ -41,7 +41,7 @@ export default class Form extends React.Component<FormProps, FormState> {
     this.selectionInput = React.createRef<HTMLSelectElement>();
     this.checkboxInput = React.createRef();
     this.switcherInput = React.createRef();
-    this.fileInput = React.createRef();
+    this.fileInput = React.createRef<HTMLInputElement>();
 
     this.handleFormInputChange = this.handleFormInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -50,19 +50,33 @@ export default class Form extends React.Component<FormProps, FormState> {
 
   handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    const isChecked = (e.target as HTMLInputElement).checked;
+    //const isChecked = (e.target as HTMLInputElement).checked;
 
     if (name === "name") {
-      this.setState({...this.state, name: value});
+      if (this.nameInput.current?.value) {
+        this.setState({...this.state, name: this.nameInput.current?.value});
+      }
     } else if (name === "surname") {
-      this.setState({...this.state, surname: value});
+      if (this.surnameInput.current?.value) {
+        this.setState({...this.state, surname: this.surnameInput.current?.value});
+      }
     } else if (name === "date") {
-      this.setState({...this.state, date: value});
-    } else if (type === "checkbox") {
-      this.setState({...this.state, checkbox: isChecked});
+      if (this.dateInput.current?.value) {
+        this.setState({...this.state, date: this.dateInput.current?.value});
+      }
+    } else if (name === "dropdown") {
+      if (this.selectionInput.current?.value) {
+        this.setState({...this.state, selection: this.selectionInput.current?.value});
+      }
+    } else if (type === "radio") {
+      if (this.switcherInput.current?.value) {
+        this.setState({...this.state, switcher: this.switcherInput.current?.value});
+      }
     } else if (type === 'file') {
-      this.setState({...this.state, file: this.fileInput.current?.files?.[0]?.name ?? ''});
-    }     
+      if (this.fileInput.current?.files) {
+        this.setState({...this.state, file: this.fileInput.current.files[0].name});
+      } 
+    }
 
   };
 
@@ -71,7 +85,7 @@ export default class Form extends React.Component<FormProps, FormState> {
 
     const { name, surname, switcher, date, file, cards } = this.state;
 
-    if (!name || !surname || !switcher || !date || !file) {
+    if (!name || !surname /*|| !switcher || !date || !file*/) {
       alert('Please fill out all fields.');
       return;
     }
@@ -90,12 +104,37 @@ export default class Form extends React.Component<FormProps, FormState> {
           this.surnameInput.current?.focus();
         }
       return;
+    }}
+
+    this.setState({...this.state, cards: [{name: this.state.name, surname: this.state.surname, date: this.state.date, country: this.state.selection, gender: this.state.switcher}]})
+
+    if (this.props.handleSubmittedData) {
+      this.props.handleSubmittedData(this.state.cards)
     }
 
-    this.setState({...this.state, cards: [{}]})
+    console.log(this.state);
 
-    this.props.handleSubmittedData(this.state.cards)
-  }}
+    this.setState({
+      name: '',
+      surname: '',
+      date: '',
+      selection: '',
+      //checkbox: false,
+      switcher: '',
+      file: '',
+      cards: [],
+      errors: {
+        name: '',
+        surname: '',
+        date: '',
+        selection: '',
+        checkbox: '',
+        switcher: '',
+        file: '',
+      },
+      submitted: false,
+    })
+  }
 
   render() {
     return (
@@ -143,12 +182,12 @@ export default class Form extends React.Component<FormProps, FormState> {
               id="dropdown"
               name="dropdown"
               ref={this.selectionInput}
-              value={this.state.date}
+              value={this.state.selection}
               onChange={this.handleFormInputChange}
             >
-              <option value="option1">USA</option>
-              <option value="option2">United Kingdom</option>
-              <option value="option3">Canada</option>
+              <option value="USA">USA</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Canada">Canada</option>
             </select>
           </div>
           <div className="form-row">
@@ -165,6 +204,9 @@ export default class Form extends React.Component<FormProps, FormState> {
               type="radio"
               name="radio-g"
               id="radio-m"
+              value="Male"
+              ref={this.switcherInput}
+              onChange={this.handleFormInputChange}
               required
             />
             <label htmlFor="radio-f">Female</label>
@@ -172,6 +214,9 @@ export default class Form extends React.Component<FormProps, FormState> {
               type="radio"
               name="radio-g"
               id="radio-f"
+              value="Female"
+              ref={this.switcherInput}
+              onChange={this.handleFormInputChange}
               required
             />
           </div>
@@ -180,6 +225,8 @@ export default class Form extends React.Component<FormProps, FormState> {
             <input
               type="file"
               id="pfp-upload"
+              ref={this.fileInput}
+              onChange={this.handleFormInputChange}
               required
             />
           </div>
