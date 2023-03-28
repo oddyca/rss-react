@@ -11,7 +11,6 @@ export default class Form extends React.Component<FormProps, FormState> {
   checkboxInput: React.RefObject<HTMLInputElement>;
   switcherInput: React.RefObject<HTMLInputElement>;
   fileInput: React.RefObject<HTMLInputElement>;
-  //handleFormInputChange: Function;
 
   constructor(props: FormProps) {
     super(props);
@@ -20,7 +19,6 @@ export default class Form extends React.Component<FormProps, FormState> {
       surname: '',
       date: '',
       selection: '',
-      //checkbox: false,
       switcher: '',
       file: '',
       cards: [],
@@ -45,12 +43,10 @@ export default class Form extends React.Component<FormProps, FormState> {
 
     this.handleFormInputChange = this.handleFormInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    
   }
 
   handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    //const isChecked = (e.target as HTMLInputElement).checked;
 
     if (name === "name") {
       if (this.nameInput.current?.value) {
@@ -77,7 +73,6 @@ export default class Form extends React.Component<FormProps, FormState> {
         this.setState({...this.state, file: this.fileInput.current.files[0].name});
       } 
     }
-
   };
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -85,7 +80,7 @@ export default class Form extends React.Component<FormProps, FormState> {
 
     const { name, surname, switcher, date, file, cards } = this.state;
 
-    if (!name || !surname /*|| !switcher || !date || !file*/) {
+    if (!name || !surname || !switcher || !date || !file) {
       alert('Please fill out all fields.');
       return;
     }
@@ -106,34 +101,44 @@ export default class Form extends React.Component<FormProps, FormState> {
       return;
     }}
 
-    this.setState({...this.state, cards: [{name: this.state.name, surname: this.state.surname, date: this.state.date, country: this.state.selection, gender: this.state.switcher}]})
+    this.setState(prevState => (
+      {...prevState, cards: 
+        [{
+          name: this.state.name,
+          surname: this.state.surname,
+          date: this.state.date,
+          country: this.state.selection,
+          gender: this.state.switcher
+        }]
+      }),
+      () => {
+        console.log(this.state.cards)
+        if (this.props.handleSubmittedData) {
+          this.props.handleSubmittedData(this.state.cards)
+        }
 
-    if (this.props.handleSubmittedData) {
-      this.props.handleSubmittedData(this.state.cards)
-    }
-
-    console.log(this.state);
-
-    this.setState({
-      name: '',
-      surname: '',
-      date: '',
-      selection: '',
-      //checkbox: false,
-      switcher: '',
-      file: '',
-      cards: [],
-      errors: {
-        name: '',
-        surname: '',
-        date: '',
-        selection: '',
-        checkbox: '',
-        switcher: '',
-        file: '',
-      },
-      submitted: false,
-    })
+        this.setState(prevState => ({
+          name: '',
+          surname: '',
+          date: '',
+          selection: '',
+          switcher: '',
+          file: '',
+          cards: [...prevState.cards],
+          errors: {
+            name: '',
+            surname: '',
+            date: '',
+            selection: '',
+            checkbox: '',
+            switcher: '',
+            file: '',
+          },
+          submitted: false,
+        }));
+        (document.getElementsByClassName("form-content")[0] as HTMLFormElement).reset();
+      }
+    )
   }
 
   render() {

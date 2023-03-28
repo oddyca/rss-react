@@ -21,7 +21,6 @@ export type FormState = {
   surname: string,
   date: string,
   selection: string,
-  //checkbox: boolean,
   switcher: string,
   file: string | undefined,
   cards: Object[],
@@ -37,11 +36,6 @@ export type FormState = {
   submitted: boolean,
 }
 
-// export type FormType = {
-//   nameInput: RefObject<HTMLInputElement>
-//   dateInput: RefObject<HTMLInputElement>
-//   selectionInput: RefObject<HTMLInputElement>
-//   checkboxInput: RefObject<HTMLInputElement>
-//   switcherInput: RefObject<HTMLInputElement>
-//   fileInput: RefObject<HTMLInputElement>
-// }
+export type CardsProps = {
+  cards: Object[] | undefined
+}
