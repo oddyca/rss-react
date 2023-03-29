@@ -21,7 +21,7 @@ export default class search extends Component<{}, SearchBarState> {
     }
   }
 
-  componentWillUnmount() {
+  componentDidUpdate() {
     localStorage.setItem('searchBarValue', this.state.value);
   }
 

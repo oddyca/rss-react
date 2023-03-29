@@ -24,7 +24,7 @@ export default class Home extends Component<{}, HomeState> {
       <div className="home-container">
         <Form handleSubmittedData={this.handleSubmittedData}/>
         <Search />
-        <Cards cards={this.state.submittedData}/>
+        {this.state.submittedData?.length !== 0 ? <Cards cards={this.state.submittedData}/> : <h3>Please, fill out the form.</h3>}
       </div>
     )
   }

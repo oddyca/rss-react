@@ -48,14 +48,12 @@ export default class Form extends React.Component<FormProps, FormState> {
   handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
+    const isChecked = (e.target as HTMLInputElement).checked;
+
     if (name === "name") {
-      if (this.nameInput.current?.value) {
-        this.setState({...this.state, name: this.nameInput.current?.value});
-      }
+      this.setState({...this.state, name: this.nameInput.current?.value});
     } else if (name === "surname") {
-      if (this.surnameInput.current?.value) {
-        this.setState({...this.state, surname: this.surnameInput.current?.value});
-      }
+      this.setState({...this.state, surname: this.surnameInput.current?.value});
     } else if (name === "date") {
       if (this.dateInput.current?.value) {
         this.setState({...this.state, date: this.dateInput.current?.value});
@@ -65,7 +63,7 @@ export default class Form extends React.Component<FormProps, FormState> {
         this.setState({...this.state, selection: this.selectionInput.current?.value});
       }
     } else if (type === "radio") {
-      if (this.switcherInput.current?.value) {
+      if (isChecked) {
         this.setState({...this.state, switcher: this.switcherInput.current?.value});
       }
     } else if (type === 'file') {
@@ -85,31 +83,32 @@ export default class Form extends React.Component<FormProps, FormState> {
       return;
     }
     if (name && !/^[A-Z][a-z]*$/.test(name)) {
-      alert('First name must start with an uppercased letter.');
+      alert('First name must contain only letters and start with an uppercased letter.');
       if (this.nameInput) {
         this.nameInput.current?.focus();
       }
       return;
     }
-    if (!/^[A-Z][a-z]*$/.test(surname)) {
-      alert('Last name must start with an uppercased letter.');
-      if (surname && !/^[A-Z][a-z]*$/.test(surname)) {
-        alert('First name must start with an uppercased letter.');
-        if (this.surnameInput) {
-          this.surnameInput.current?.focus();
-        }
+    if (surname && !/^[A-Z][a-z]*$/.test(surname)) {
+      alert('Last name must contain only letters and start with an uppercased letter.');
+      if (this.surnameInput) {
+        this.surnameInput.current?.focus();
+      }
       return;
-    }}
+    }
 
     this.setState(prevState => (
-      {...prevState, cards: 
-        [{
-          name: this.state.name,
-          surname: this.state.surname,
-          date: this.state.date,
-          country: this.state.selection,
-          gender: this.state.switcher
-        }]
+      {...prevState,
+        cards: 
+          [...cards,
+            {
+              name: this.state.name,
+              surname: this.state.surname,
+              date: this.state.date,
+              country: this.state.selection || "USA",
+              gender: this.state.switcher
+            }
+          ]
       }),
       () => {
         console.log(this.state.cards)
@@ -118,13 +117,13 @@ export default class Form extends React.Component<FormProps, FormState> {
         }
 
         this.setState(prevState => ({
+          ...prevState,
           name: '',
           surname: '',
           date: '',
           selection: '',
           switcher: '',
           file: '',
-          cards: [...prevState.cards],
           errors: {
             name: '',
             surname: '',
@@ -137,6 +136,13 @@ export default class Form extends React.Component<FormProps, FormState> {
           submitted: false,
         }));
         (document.getElementsByClassName("form-content")[0] as HTMLFormElement).reset();
+        this.nameInput = React.createRef();
+        this.surnameInput = React.createRef();
+        this.dateInput = React.createRef();
+        this.selectionInput = React.createRef<HTMLSelectElement>();
+        this.checkboxInput = React.createRef();
+        this.switcherInput = React.createRef();
+        this.fileInput = React.createRef<HTMLInputElement>();
       }
     )
   }

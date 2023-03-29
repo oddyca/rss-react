@@ -17,11 +17,11 @@ export type FormProps = {
 }
 
 export type FormState = {
-  name: string,
-  surname: string,
+  name: string | undefined,
+  surname: string | undefined,
   date: string,
   selection: string,
-  switcher: string,
+  switcher: string | undefined,
   file: string | undefined,
   cards: Object[],
   errors: {

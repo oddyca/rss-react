@@ -24,7 +24,7 @@ export default class Cards extends Component<CardsProps, {}> {
       return (
         <div className="cards" key={id}>
           <div className="card-title">
-            <h3>Card #{id}</h3>
+            <h3>Card #{id+1}</h3>
           </div>
           <div className="card-body">
             <div className="card-body_col">
@@ -39,7 +39,15 @@ export default class Cards extends Component<CardsProps, {}> {
               }
             </div>
             <div className="card-body_col">
-              <div className="card-body_row"></div>
+              {
+                Object.values(card).map((value, id) => {
+                  return (
+                    <div className="card-body_row" key={id}>
+                      <p>{value}</p>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
         </div>
