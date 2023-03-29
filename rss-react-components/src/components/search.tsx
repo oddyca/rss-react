@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import "../styles/search.css"
-import { SearchBarState } from 'types/types'
+import '../styles/search.css';
+import { SearchBarState } from 'types/types';
 
-export default class search extends Component<{}, SearchBarState> {
-  constructor(props: {}) {
+export default class search extends Component<object, SearchBarState> {
+  constructor(props: object) {
     super(props);
 
     this.state = {
       value: '',
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   componentDidMount() {
@@ -26,9 +26,9 @@ export default class search extends Component<{}, SearchBarState> {
   }
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
+    console.log(event.target.value);
     this.setState({ value: event.target.value });
-  }
+  };
 
   render() {
     return (
@@ -41,15 +41,10 @@ export default class search extends Component<{}, SearchBarState> {
           placeholder="type anything, 40ch max"
           maxLength={40}
         />
-        <button
-          className="search-button"
-          type="submit"
-          onClick={(e) => e.preventDefault()}
-        >
-        search
+        <button className="search-button" type="submit" onClick={(e) => e.preventDefault()}>
+          search
         </button>
       </div>
     );
   }
 }
-

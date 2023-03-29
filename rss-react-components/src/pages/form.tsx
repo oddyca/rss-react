@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react';
 import { FormProps, FormState } from '../types/types';
 
-import "../styles/form-styles.css"
+import '../styles/form-styles.css';
+import Cards from '../components/cards';
 
 export default class Form extends React.Component<FormProps, FormState> {
   nameInput: React.RefObject<HTMLInputElement>;
@@ -21,6 +22,7 @@ export default class Form extends React.Component<FormProps, FormState> {
       date: '',
       selection: '',
       switcher: '',
+      checkbox: false,
       file: '',
       cards: [],
       errors: {
@@ -48,33 +50,41 @@ export default class Form extends React.Component<FormProps, FormState> {
   }
 
   handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
+    const { name, type } = e.target;
 
-    const isCheckedMale = e.target.value === "Male" && (e.target as HTMLInputElement).checked;
-    const isCheckedFemale = e.target.value === "Female" && (e.target as HTMLInputElement).checked;
+    const isCheckedMale = e.target.value === 'Male' && (e.target as HTMLInputElement).checked;
+    const isCheckedFemale = e.target.value === 'Female' && (e.target as HTMLInputElement).checked;
 
-    if (name === "name") {
-      this.setState({...this.state, name: this.nameInput.current?.value});
-    } else if (name === "surname") {
-      this.setState({...this.state, surname: this.surnameInput.current?.value});
-    } else if (name === "date") {
-      if (this.dateInput.current?.value) {
-        this.setState({...this.state, date: this.dateInput.current?.value});
-      }
-    } else if (name === "dropdown") {
-      if (this.selectionInput.current?.value) {
-        this.setState({...this.state, selection: this.selectionInput.current?.value});
-      }
-    } else if (type === "radio") {
+    if (name === 'name') {
+      const value = this.nameInput.current?.value || '';
+      this.setState({ ...this.state, name: value });
+    } else if (name === 'surname') {
+      const value = this.surnameInput.current?.value || '';
+      this.setState({ ...this.state, surname: value });
+    } else if (name === 'date') {
+      const value = this.dateInput.current?.value || '';
+      this.setState({ ...this.state, date: value });
+    } else if (name === 'dropdown') {
+      const value = this.selectionInput.current?.value || '';
+      this.setState({ ...this.state, selection: value });
+    } else if (type === 'checkbox') {
+      const value = this.checkboxInput.current?.checked || false;
+      this.setState({ ...this.state, checkbox: value });
+    } else if (type === 'radio') {
       if (isCheckedMale) {
-        this.setState({...this.state, switcher: this.switcherInputMale.current?.value});
+        const value = this.switcherInputMale.current?.value || '';
+        this.setState({ ...this.state, switcher: value });
       } else if (isCheckedFemale) {
-        this.setState({...this.state, switcher: this.switcherInputFemale.current?.value});
+        const value = this.switcherInputFemale.current?.value || '';
+        this.setState({ ...this.state, switcher: value });
       }
     } else if (type === 'file') {
       if (this.fileInput.current?.files) {
-        this.setState({...this.state, file: this.fileInput.current.files[0].name});
-      } 
+        this.setState({
+          ...this.state,
+          file: URL.createObjectURL(this.fileInput.current.files[0]),
+        });
+      }
     }
   };
 
@@ -88,45 +98,60 @@ export default class Form extends React.Component<FormProps, FormState> {
       return;
     }
     if (name && !/^[A-Z][a-z]*$/.test(name)) {
-      this.setState(prevState => ({...prevState, errors: {...prevState.errors, name:'First name must contain only letters and start with an uppercased letter.'}}));
+      this.setState((prevState) => ({
+        ...prevState,
+        errors: {
+          ...prevState.errors,
+          name: 'First name must contain only letters and start with an uppercased letter.',
+        },
+      }));
       if (this.nameInput) {
         this.nameInput.current?.focus();
       }
       return;
     }
     if (surname && !/^[A-Z][a-z]*$/.test(surname)) {
-      this.setState(prevState => ({...prevState, errors: {...prevState.errors, surname:'Last name must contain only letters and start with an uppercased letter.'}}));
+      this.setState((prevState) => ({
+        ...prevState,
+        errors: {
+          ...prevState.errors,
+          surname: 'Last name must contain only letters and start with an uppercased letter.',
+        },
+      }));
       if (this.surnameInput) {
         this.surnameInput.current?.focus();
       }
       return;
     }
 
-    this.setState(prevState => (
-      {...prevState,
-        cards: 
-          [...cards,
-            {
-              name: this.state.name,
-              surname: this.state.surname,
-              date: this.state.date,
-              country: this.state.selection || "USA",
-              gender: this.state.switcher
-            }
-          ]
+    this.setState(
+      (prevState) => ({
+        ...prevState,
+        cards: [
+          ...cards,
+          {
+            name: this.state.name,
+            surname: this.state.surname,
+            date: this.state.date,
+            country: this.state.selection || 'USA',
+            gender: this.state.switcher,
+            pfp: this.state.file,
+          },
+        ],
       }),
       () => {
         if (this.props.handleSubmittedData) {
-          this.props.handleSubmittedData(this.state.cards)
+          this.props.handleSubmittedData(this.state.cards);
         }
 
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           ...prevState,
           name: '',
           surname: '',
           date: '',
           selection: '',
           switcher: '',
+          checkbox: false,
           file: '',
           errors: {
             name: '',
@@ -139,18 +164,16 @@ export default class Form extends React.Component<FormProps, FormState> {
           },
           submitted: false,
         }));
-        (document.getElementsByClassName("form-content")[0] as HTMLFormElement).reset();
-        this.nameInput = React.createRef();
-        this.surnameInput = React.createRef();
-        this.dateInput = React.createRef();
-        this.selectionInput = React.createRef<HTMLSelectElement>();
-        this.checkboxInput = React.createRef();
-        this.switcherInputMale = React.createRef();
-        this.switcherInputFemale = React.createRef();
-        this.fileInput = React.createRef<HTMLInputElement>();
+        this.nameInput.current!.value = '';
+        this.surnameInput.current!.value = '';
+        this.dateInput.current!.value = '';
+        this.checkboxInput.current!.checked = false;
+        this.switcherInputMale.current!.checked = false;
+        this.switcherInputFemale.current!.checked = false;
+        this.fileInput.current!.value = '';
       }
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -165,8 +188,11 @@ export default class Form extends React.Component<FormProps, FormState> {
               ref={this.nameInput}
               value={this.state.name}
               onChange={this.handleFormInputChange}
-              required />
-            {this.state.errors.name && <span className="submit-error">{this.state.errors.name}</span>}
+              required
+            />
+            {this.state.errors.name && (
+              <span className="submit-error">{this.state.errors.name}</span>
+            )}
           </div>
           <div className="form-row">
             <label htmlFor="surname">Surname:</label>
@@ -177,8 +203,11 @@ export default class Form extends React.Component<FormProps, FormState> {
               ref={this.surnameInput}
               value={this.state.surname}
               onChange={this.handleFormInputChange}
-              required />
-            {this.state.errors.surname && <span className="submit-error">{this.state.errors.surname}</span>}
+              required
+            />
+            {this.state.errors.surname && (
+              <span className="submit-error">{this.state.errors.surname}</span>
+            )}
           </div>
           <div className="form-row">
             <label htmlFor="date">Date:</label>
@@ -189,7 +218,8 @@ export default class Form extends React.Component<FormProps, FormState> {
               ref={this.dateInput}
               value={this.state.date}
               onChange={this.handleFormInputChange}
-              required />
+              required
+            />
             {this.state.errors.date && <span>{this.state.errors.date}</span>}
           </div>
           <div className="form-row">
@@ -211,6 +241,9 @@ export default class Form extends React.Component<FormProps, FormState> {
             <input
               type="checkbox"
               id="checkbox"
+              ref={this.checkboxInput}
+              checked={this.state.checkbox}
+              onChange={this.handleFormInputChange}
               required
             />
           </div>
@@ -240,6 +273,7 @@ export default class Form extends React.Component<FormProps, FormState> {
             <label htmlFor="pfp-upload">Upload your profile picture</label>
             <input
               type="file"
+              accept="image/*"
               id="pfp-upload"
               ref={this.fileInput}
               onChange={this.handleFormInputChange}
@@ -250,7 +284,14 @@ export default class Form extends React.Component<FormProps, FormState> {
             Submit
           </button>
         </form>
+        <div className="form-cards">
+          {this.state.cards?.length !== 0 ? (
+            <Cards cards={this.state.cards} />
+          ) : (
+            <h3>Please, fill out the form.</h3>
+          )}
+        </div>
       </div>
-    )
+    );
   }
 }
