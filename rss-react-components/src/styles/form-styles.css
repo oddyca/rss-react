@@ -14,9 +14,23 @@
 }
 
 .form-row {
+  position: relative;
   display: flex;
   justify-content: space-between;
   gap: .5rem;
+}
+
+.submit-error {
+  color: rgb(192, 33, 33);
+  font-size: 12px;
+  width: 70%;
+  word-wrap: break-word;
+  padding: 4px 8px;
+  position: absolute;
+  top: 0;
+  right: -78%;
+  background-color: #28323f;
+  border: solid 1px #394656;
 }
 
 .submit-form-btn {

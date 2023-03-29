@@ -88,14 +88,14 @@ export default class Form extends React.Component<FormProps, FormState> {
       return;
     }
     if (name && !/^[A-Z][a-z]*$/.test(name)) {
-      alert('First name must contain only letters and start with an uppercased letter.');
+      this.setState(prevState => ({...prevState, errors: {...prevState.errors, name:'First name must contain only letters and start with an uppercased letter.'}}));
       if (this.nameInput) {
         this.nameInput.current?.focus();
       }
       return;
     }
     if (surname && !/^[A-Z][a-z]*$/.test(surname)) {
-      alert('Last name must contain only letters and start with an uppercased letter.');
+      this.setState(prevState => ({...prevState, errors: {...prevState.errors, surname:'Last name must contain only letters and start with an uppercased letter.'}}));
       if (this.surnameInput) {
         this.surnameInput.current?.focus();
       }
@@ -166,7 +166,7 @@ export default class Form extends React.Component<FormProps, FormState> {
               value={this.state.name}
               onChange={this.handleFormInputChange}
               required />
-            {this.state.errors.name && <span>{this.state.errors.name}</span>}
+            {this.state.errors.name && <span className="submit-error">{this.state.errors.name}</span>}
           </div>
           <div className="form-row">
             <label htmlFor="surname">Surname:</label>
@@ -178,7 +178,7 @@ export default class Form extends React.Component<FormProps, FormState> {
               value={this.state.surname}
               onChange={this.handleFormInputChange}
               required />
-            {this.state.errors.surname && <span>{this.state.errors.surname}</span>}
+            {this.state.errors.surname && <span className="submit-error">{this.state.errors.surname}</span>}
           </div>
           <div className="form-row">
             <label htmlFor="date">Date:</label>
