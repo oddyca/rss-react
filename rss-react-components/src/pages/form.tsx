@@ -9,7 +9,8 @@ export default class Form extends React.Component<FormProps, FormState> {
   dateInput: React.RefObject<HTMLInputElement>;
   selectionInput: React.RefObject<HTMLSelectElement>;
   checkboxInput: React.RefObject<HTMLInputElement>;
-  switcherInput: React.RefObject<HTMLInputElement>;
+  switcherInputMale: React.RefObject<HTMLInputElement>;
+  switcherInputFemale: React.RefObject<HTMLInputElement>;
   fileInput: React.RefObject<HTMLInputElement>;
 
   constructor(props: FormProps) {
@@ -38,7 +39,8 @@ export default class Form extends React.Component<FormProps, FormState> {
     this.dateInput = React.createRef();
     this.selectionInput = React.createRef<HTMLSelectElement>();
     this.checkboxInput = React.createRef();
-    this.switcherInput = React.createRef();
+    this.switcherInputMale = React.createRef();
+    this.switcherInputFemale = React.createRef();
     this.fileInput = React.createRef<HTMLInputElement>();
 
     this.handleFormInputChange = this.handleFormInputChange.bind(this);
@@ -48,7 +50,8 @@ export default class Form extends React.Component<FormProps, FormState> {
   handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
-    const isChecked = (e.target as HTMLInputElement).checked;
+    const isCheckedMale = e.target.value === "Male" && (e.target as HTMLInputElement).checked;
+    const isCheckedFemale = e.target.value === "Female" && (e.target as HTMLInputElement).checked;
 
     if (name === "name") {
       this.setState({...this.state, name: this.nameInput.current?.value});
@@ -63,8 +66,10 @@ export default class Form extends React.Component<FormProps, FormState> {
         this.setState({...this.state, selection: this.selectionInput.current?.value});
       }
     } else if (type === "radio") {
-      if (isChecked) {
-        this.setState({...this.state, switcher: this.switcherInput.current?.value});
+      if (isCheckedMale) {
+        this.setState({...this.state, switcher: this.switcherInputMale.current?.value});
+      } else if (isCheckedFemale) {
+        this.setState({...this.state, switcher: this.switcherInputFemale.current?.value});
       }
     } else if (type === 'file') {
       if (this.fileInput.current?.files) {
@@ -111,7 +116,6 @@ export default class Form extends React.Component<FormProps, FormState> {
           ]
       }),
       () => {
-        console.log(this.state.cards)
         if (this.props.handleSubmittedData) {
           this.props.handleSubmittedData(this.state.cards)
         }
@@ -141,7 +145,8 @@ export default class Form extends React.Component<FormProps, FormState> {
         this.dateInput = React.createRef();
         this.selectionInput = React.createRef<HTMLSelectElement>();
         this.checkboxInput = React.createRef();
-        this.switcherInput = React.createRef();
+        this.switcherInputMale = React.createRef();
+        this.switcherInputFemale = React.createRef();
         this.fileInput = React.createRef<HTMLInputElement>();
       }
     )
@@ -216,7 +221,7 @@ export default class Form extends React.Component<FormProps, FormState> {
               name="radio-g"
               id="radio-m"
               value="Male"
-              ref={this.switcherInput}
+              ref={this.switcherInputMale}
               onChange={this.handleFormInputChange}
               required
             />
@@ -226,7 +231,7 @@ export default class Form extends React.Component<FormProps, FormState> {
               name="radio-g"
               id="radio-f"
               value="Female"
-              ref={this.switcherInput}
+              ref={this.switcherInputFemale}
               onChange={this.handleFormInputChange}
               required
             />
