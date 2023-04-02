@@ -1,19 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../styles/cards.css';
 
 import { CardsProps } from '../types/types';
 
-export default class Cards extends Component<CardsProps, object> {
-  constructor(props: CardsProps) {
-    super(props);
-
-    this.renderCards = this.renderCards.bind(this);
-  }
-
-  renderCards = () => {
-    const allCards = this.props.cards;
-
-    return allCards?.map((card, id) => {
+const Cards = ({ cards }: CardsProps) => {
+  const renderCards = () => {
+    return cards?.map((card, id) => {
       return (
         <div className="cards" key={id}>
           <div className="card-title">
@@ -49,7 +41,7 @@ export default class Cards extends Component<CardsProps, object> {
     });
   };
 
-  render() {
-    return <div className="cards-container">{this.renderCards()}</div>;
-  }
-}
+  return <div className="cards-container">{renderCards()}</div>;
+};
+
+export default Cards;

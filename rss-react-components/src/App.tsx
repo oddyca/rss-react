@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/header';
 import Home from './pages/home';
@@ -10,32 +10,25 @@ import './styles/style.css';
 
 import { AppState } from 'types/types';
 
-export default class App extends React.Component<object, AppState> {
-  constructor(props: object) {
-    super(props);
+function App() {
+  const [inputValue, setInputValue] = useState('');
 
-    this.state = {
-      inputValue: '',
-    };
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: e.target.value });
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
 
-  render() {
-    return (
-      <>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/aboutus" element={<Aboutus />} />
-          <Route path="/form" element={<Form handleSubmittedData={undefined} />} />
-          <Route path="/404" element={<Page404 />} />
-          <Route path="*" element={<Navigate replace to="/404" />} />
-        </Routes>
-      </>
-    );
-  }
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/aboutus" element={<Aboutus />} />
+        <Route path="/form" element={<Form handleSubmittedData={undefined} />} />
+        <Route path="/404" element={<Page404 />} />
+        <Route path="*" element={<Navigate replace to="/404" />} />
+      </Routes>
+    </>
+  );
 }
+
+export default App;

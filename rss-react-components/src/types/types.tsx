@@ -22,7 +22,7 @@ export type HomeState = {
 };
 
 export type FormProps = {
-  handleSubmittedData: IhandelSubmittedData;
+  handleSubmittedData: IhandelSubmittedData | undefined;
 };
 
 export type FormState = {
@@ -44,6 +44,15 @@ export type FormState = {
     file: string;
   };
   submitted: boolean;
+};
+
+export type FormData = {
+  name: string;
+  surname: string;
+  date: string;
+  country: string;
+  gender: string;
+  pfp: string;
 };
 
 export type CardsProps = {

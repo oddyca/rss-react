@@ -1,50 +1,38 @@
-import React, { Component } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import '../styles/search.css';
-import { SearchBarState } from 'types/types';
 
-export default class search extends Component<object, SearchBarState> {
-  constructor(props: object) {
-    super(props);
+export default function Search(): JSX.Element {
+  const [value, setValue] = useState('');
 
-    this.state = {
-      value: '',
-    };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     const storedValue = localStorage.getItem('searchBarValue');
     if (storedValue) {
-      this.setState({ value: storedValue });
+      setValue(storedValue);
     }
-  }
+  }, []);
 
-  componentDidUpdate() {
-    localStorage.setItem('searchBarValue', this.state.value);
-  }
+  useEffect(() => {
+    localStorage.setItem('searchBarValue', value);
+  }, [value]);
 
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
-    this.setState({ value: event.target.value });
+    setValue(event.target.value);
   };
 
-  render() {
-    return (
-      <div className="search-container">
-        <input
-          className="search-bar"
-          type="text"
-          value={this.state.value}
-          onChange={this.handleInputChange}
-          placeholder="type anything, 40ch max"
-          maxLength={40}
-        />
-        <button className="search-button" type="submit" onClick={(e) => e.preventDefault()}>
-          search
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div className="search-container">
+      <input
+        className="search-bar"
+        type="text"
+        value={value}
+        onChange={handleInputChange}
+        placeholder="type anything, 40ch max"
+        maxLength={40}
+      />
+      <button className="search-button" type="submit" onClick={(e) => e.preventDefault()}>
+        search
+      </button>
+    </div>
+  );
 }
