@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { FormProps, FormState, FormData } from '../types/types';
+import { FormState, FormData } from '../types/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import '../styles/form-styles.css';
 import Cards from '../components/cards';
 
-export default function Form(props: FormProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FormData>();
+export default function Form() {
+  const { register, handleSubmit, reset } = useForm<FormData>();
 
   const [state, setState] = useState<FormState>({
     name: '',
@@ -70,7 +65,6 @@ export default function Form(props: FormProps) {
 
   const handleFormSubmit: SubmitHandler<FormData> = (data, event) => {
     event!.preventDefault();
-    console.log('DATA from handleFormFsubmit', data);
     const { name, surname, switcher, date, file, cards } = state;
 
     if (!name || !surname || !switcher || !date || !file) {

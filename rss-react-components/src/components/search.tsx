@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/search.css';
 
-export default function Search(): JSX.Element {
+export default function Search() {
   const [value, setValue] = useState('');
 
   useEffect(() => {

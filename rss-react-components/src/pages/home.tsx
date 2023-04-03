@@ -1,7 +1,7 @@
 import React from 'react';
 import Search from '../components/search';
 
-const Home: React.FC<object> = (props: object) => {
+const Home = () => {
   return (
     <div className="home-container">
       <Search />
