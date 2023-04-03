@@ -39,8 +39,6 @@ export default function Form(props: FormProps) {
   ) => {
     const { id, type, value, checked } = e.target as HTMLInputElement;
 
-    console.log(value);
-
     const isCheckedMale = e.target.value === 'Male' && (e.target as HTMLInputElement).checked;
     const isCheckedFemale = e.target.value === 'Female' && (e.target as HTMLInputElement).checked;
 
@@ -100,8 +98,14 @@ export default function Form(props: FormProps) {
       return;
     }
 
-    setState((prevState) => ({
-      ...prevState,
+    setState({
+      name: '',
+      surname: '',
+      date: '',
+      selection: '',
+      switcher: '',
+      checkbox: false,
+      file: '',
       cards: [
         ...cards,
         {
@@ -113,18 +117,6 @@ export default function Form(props: FormProps) {
           pfp: state.file,
         },
       ],
-    }));
-
-    reset();
-    setState({
-      name: '',
-      surname: '',
-      date: '',
-      selection: '',
-      switcher: '',
-      checkbox: false,
-      file: '',
-      cards: [],
       errors: {
         name: '',
         surname: '',
@@ -134,8 +126,10 @@ export default function Form(props: FormProps) {
         switcher: '',
         file: '',
       },
-      submitted: true, // set submitted to true to indicate that the form has been submitted
+      submitted: false,
     });
+
+    reset();
   };
 
   return (
