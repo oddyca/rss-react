@@ -6,121 +6,53 @@ import '../styles/form-styles.css';
 import Cards from '../components/cards';
 
 export default function Form() {
-  const { register, handleSubmit, reset } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({ mode: 'onChange' });
 
   const [state, setState] = useState<FormState>({
-    name: '',
-    surname: '',
-    date: '',
     selection: '',
-    switcher: '',
-    checkbox: false,
-    file: '',
     cards: [],
-    errors: {
-      name: '',
-      surname: '',
-      date: '',
-      selection: '',
-      checkbox: '',
-      switcher: '',
-      file: '',
-    },
-    submitted: false,
   });
 
-  const handleFormInputChange = (
-    e: React.ChangeEvent<EventTarget & (HTMLInputElement | HTMLSelectElement)>
-  ) => {
-    const { id, type, value, checked } = e.target as HTMLInputElement;
+  const handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
 
-    const isCheckedMale = e.target.value === 'Male' && (e.target as HTMLInputElement).checked;
-    const isCheckedFemale = e.target.value === 'Female' && (e.target as HTMLInputElement).checked;
-
-    if (id === 'name') {
-      setState({ ...state, name: value });
-    } else if (id === 'surname') {
-      setState({ ...state, surname: value });
-    } else if (id === 'date') {
-      setState({ ...state, date: value });
-    } else if (id === 'dropdown') {
+    if (id === 'dropdown') {
       setState({ ...state, selection: value });
-    } else if (type === 'checkbox') {
-      setState({ ...state, checkbox: checked });
-    } else if (type === 'radio') {
-      if (isCheckedMale) {
-        setState({ ...state, switcher: value });
-      } else if (isCheckedFemale) {
-        setState({ ...state, switcher: value });
-      }
-    } else if (type === 'file') {
-      const inputElement = e.target as HTMLInputElement;
-      if (!inputElement.files) return;
-      setState({
-        ...state,
-        file: URL.createObjectURL(inputElement.files[0]),
-      });
     }
   };
 
   const handleFormSubmit: SubmitHandler<FormData> = (data, event) => {
     event!.preventDefault();
-    const { name, surname, switcher, date, file, cards } = state;
-
-    if (!name || !surname || !switcher || !date || !file) {
+    if (
+      !data.name ||
+      !data.surname ||
+      data.gender === '' ||
+      !data.country ||
+      !data.date ||
+      !data.checkbox
+    ) {
       alert('Please fill out all fields.');
-      return;
-    }
-    if (name && !/^[A-Z][a-z]*$/.test(name)) {
-      setState((prevState) => ({
-        ...prevState,
-        errors: {
-          ...prevState.errors,
-          name: 'First name must contain only letters and start with an uppercased letter.',
-        },
-      }));
-      return;
-    }
-    if (surname && !/^[A-Z][a-z]*$/.test(surname)) {
-      setState((prevState) => ({
-        ...prevState,
-        errors: {
-          ...prevState.errors,
-          surname: 'Last name must contain only letters and start with an uppercased letter.',
-        },
-      }));
       return;
     }
 
     setState({
-      name: '',
-      surname: '',
-      date: '',
       selection: '',
-      switcher: '',
-      checkbox: false,
-      file: '',
       cards: [
-        ...cards,
+        ...state.cards,
         {
-          name: state.name,
-          surname: state.surname,
-          date: state.date,
-          country: state.selection || 'USA',
-          gender: state.switcher,
-          pfp: state.file,
+          name: data.name,
+          surname: data.surname,
+          date: data.date,
+          country: data.country,
+          gender: data.gender,
+          pfp: data.pfp[0] ? URL.createObjectURL(data.pfp[0]) : '',
         },
       ],
-      errors: {
-        name: '',
-        surname: '',
-        date: '',
-        selection: '',
-        checkbox: '',
-        switcher: '',
-        file: '',
-      },
-      submitted: false,
     });
 
     reset();
@@ -134,33 +66,41 @@ export default function Form() {
           <input
             type="text"
             id="name"
-            {...register('name', { onChange: handleFormInputChange })}
-            value={state.name}
-            required
+            {...register('name', {
+              required: 'Name is required',
+              pattern: {
+                value: /^[A-Z][a-z]*$/,
+                message: 'First name must contain only letters and start with an uppercased letter',
+              },
+            })}
           />
-          {state.errors.name && <span className="submit-error">{state.errors.name}</span>}
+          {errors.name && <span className="submit-error">{errors.name.message}</span>}
         </div>
         <div className="form-row">
           <label htmlFor="surname">Surname:</label>
           <input
             type="text"
             id="surname"
-            {...register('surname', { onChange: handleFormInputChange })}
-            value={state.surname}
-            required
+            {...register('surname', {
+              required: 'Last name is required',
+              pattern: {
+                value: /^[A-Z][a-z]*$/,
+                message: 'Last name must contain only letters and start with an uppercased letter',
+              },
+            })}
           />
-          {state.errors.surname && <span className="submit-error">{state.errors.surname}</span>}
+          {errors.surname && <span className="submit-error">{errors.surname.message}</span>}
         </div>
         <div className="form-row">
           <label htmlFor="date">Date:</label>
           <input
             type="date"
             id="date"
-            {...register('date', { onChange: handleFormInputChange })}
-            value={state.date}
-            required
+            {...register('date', {
+              required: 'Date is required',
+            })}
           />
-          {state.errors.date && <span>{state.errors.date}</span>}
+          {errors.date && <span className="submit-error">{errors.date.message}</span>}
         </div>
         <div className="form-row">
           <label htmlFor="dropdown">Select country of choice:</label>
@@ -179,11 +119,11 @@ export default function Form() {
           <input
             type="checkbox"
             id="checkbox"
-            name="dropdown"
-            checked={state.checkbox}
-            onChange={handleFormInputChange}
-            required
+            {...register('checkbox', {
+              required: 'This field is required',
+            })}
           />
+          {errors.checkbox && <span className="submit-error">{errors.checkbox.message}</span>}
         </div>
         <div className="form-row">
           <label htmlFor="radio-m">Male</label>
@@ -191,27 +131,24 @@ export default function Form() {
             type="radio"
             id="radio-m"
             value="Male"
-            {...register('gender', { onChange: handleFormInputChange })}
-            required
+            {...register('gender', {
+              required: 'This field is required',
+            })}
           />
           <label htmlFor="radio-f">Female</label>
           <input
             type="radio"
             id="radio-f"
             value="Female"
-            {...register('gender', { onChange: handleFormInputChange })}
-            required
+            {...register('gender', {
+              required: 'This field is required',
+            })}
           />
+          {errors.gender && <span className="submit-error">{errors.gender.message}</span>}
         </div>
         <div className="form-row">
           <label htmlFor="pfp-upload">Upload your profile picture</label>
-          <input
-            type="file"
-            accept="image/*"
-            id="pfp-upload"
-            {...register('pfp', { onChange: handleFormInputChange })}
-            required
-          />
+          <input type="file" accept="image/*" id="pfp-upload" {...register('pfp')} />
         </div>
         <button type="submit" className="submit-form-btn">
           Submit

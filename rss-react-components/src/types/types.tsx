@@ -26,24 +26,8 @@ export type FormProps = {
 };
 
 export type FormState = {
-  name: string;
-  surname: string;
-  date: string;
   selection: string;
-  switcher: string;
-  checkbox: boolean;
-  file: string;
   cards: Card[];
-  errors: {
-    name: string;
-    surname: string;
-    date: string;
-    selection: string;
-    checkbox: string;
-    switcher: string;
-    file: string;
-  };
-  submitted: boolean;
 };
 
 export type FormData = {
@@ -51,8 +35,9 @@ export type FormData = {
   surname: string;
   date: string;
   country: string;
+  checkbox: boolean;
   gender: string;
-  pfp: string;
+  pfp: FileList;
 };
 
 export type CardsProps = {

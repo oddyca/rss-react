@@ -12,7 +12,7 @@ const Cards = ({ cards }: CardsProps) => {
             <h3>Card #{id + 1}</h3>
           </div>
           <div className="card-body">
-            <img className="card-pfp" src={card.pfp}></img>
+            <div className="card-pfp" style={{ backgroundImage: `url(${card.pfp})` }}></div>
             <div className="card-body_col">
               {Object.keys(card)
                 .slice(0, -1)
