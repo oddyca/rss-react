@@ -23,6 +23,14 @@ export default function Search() {
 
   return (
     <div className="search-container">
+      <p className="corener-top">CONNECTION 55.034f</p>
+      <p className="corner-left">
+        002030
+        <br />
+        929308
+        <br />
+        237320
+      </p>
       <img src={corener_lines} className="corner-lines" alt="search bar decorations" />
       <input
         className="search-bar"

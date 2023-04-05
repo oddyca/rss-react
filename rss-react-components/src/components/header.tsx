@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import header_corner from '../assets/header-corner.svg';
 
@@ -15,9 +15,18 @@ const Header = () => {
           </p>
         </div>
         <div className="nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/form">Form</Link>
-          <Link to="/aboutus">About</Link>
+          <NavLink className={({ isActive }) => (isActive ? 'nav-active' : 'nav-idle')} to="/" end>
+            Home
+          </NavLink>
+          <NavLink className={({ isActive }) => (isActive ? 'nav-active' : 'nav-idle')} to="/form">
+            Form
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'nav-active' : 'nav-idle')}
+            to="/aboutus"
+          >
+            About
+          </NavLink>
         </div>
         <div className="header_corner-decoration-right">
           <p className="dec_text">

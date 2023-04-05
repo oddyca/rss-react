@@ -8,31 +8,55 @@
 
 .cards {
   min-width: 256px;
+  min-height: 256px;
+  position: relative;
   height: fit-content;
-  background-color: #404b5a;
+  background-color: #0B0B0B; 
   color: white;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  overflow: hidden;
+  z-index: 200;
+  clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
+}
+
+.cards-border {
+  position: relative;
+  padding: 2px;
+  border-bottom: solid 3px #F02A39;
+  background-color: #F02A39;
+  z-index: 50;
+  clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
 }
 
 .card-title {
-  background-color: #28323f;
+  background-color: #9D1C26;
+  color: #FF7480;
   width: 100%;
   padding-top: 8px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   padding: 8px;
+  position: relative;
+}
+
+.card-title_decoration {
+  position: absolute;
+  text-align: left;
+  top: 16px;
+  left: 8px;
+  color: #F02A39;
+  font-size: 8px;
 }
 
 .card-body {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 4px;
   padding: 8px;
+  color: #FF7480;
 }
 
 .card-body_row {
