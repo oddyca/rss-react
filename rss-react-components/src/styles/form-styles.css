@@ -203,6 +203,7 @@
 
 #pfp-upload::file-selector-button {
   border: none;
+  position: relative;
   background: #330E15;
   padding: 4px 12px;
   color: #F02A39;
@@ -212,6 +213,13 @@
 
 #pfp-upload::file-selector-button:hover {
   background: #9e2037;
+}
+
+#pfp-upload::file-selector-button::before {
+  content: url('./assets/arrows-right.svg');
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .submit-form-btn {

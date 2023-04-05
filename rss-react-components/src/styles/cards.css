@@ -12,12 +12,42 @@
   position: relative;
   height: fit-content;
   background-color: #0B0B0B; 
-  color: white;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   z-index: 200;
   clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
+}
+
+.cards-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #0B0B0B;
+  z-index: 200;
+}
+
+.form-cards-border {
+  position: relative;
+  padding: 2px;
+  border-bottom: solid 3px #F02A39;
+  background-color: #F02A39;
+  z-index: 50;
+  clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
+}
+
+.form-cards-container {
+  clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
+}
+
+.card-form-body {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 8px;
+  color: #FF7480;
+  background-color: #0B0B0B;
 }
 
 .cards-border {
