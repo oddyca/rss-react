@@ -9,14 +9,57 @@
   color: white;
 }
 
+.form-decoration {
+  position: relative;
+}
+
+.form-border {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+  padding: 2.5px 1.5px;
+  border-bottom: solid 2px #F02A39;
+  background-color: #F02A39;
+  clip-path: polygon(43% 0, 45% 3%, 98% 3%, 100% 6%, 100% 100%, 3% 100%, 0 95%, 0 0);
+}
+
 .form-content {
   width: fit-content;
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 3.5rem 5.5rem 3rem 3rem;
   gap: .5rem;
-  background-color: #28323f;
-  border-radius: 8px;
+  background-color: #0B0B0B;
+  color: #F02A39;
+  clip-path: polygon(43% 0, 45% 3%, 98% 3%, 100% 6%, 100% 100%, 3% 100%, 0 95%, 0 0);
+}
+
+.form-bottom-decoration {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  font-size: 8px;
+  color: #651C2A;
+}
+
+.form-dec-top-left {
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  top: 20px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 6px;
+  color: #651C2A;
+}
+
+.dec-top-row2 {
+  display: flex;
+  gap: 6px;
 }
 
 .form-row {
@@ -34,25 +77,180 @@
   justify-content: center;
 }
 
+.errors-container > div {
+  height: 28px;
+}
+
+.errors-container {
+  position: absolute;
+  width: 400px;
+  top: 0;
+  bottom: 0;
+  right: -412px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 3.7rem 0 3rem 0;
+}
+
 .submit-error {
-  color: rgb(192, 33, 33);
+  color: #F02A39;
   font-size: 12px;
-  width: 70%;
+  width: 100%;
   word-wrap: break-word;
   padding: 4px 8px;
+  background-color: #330E15;
+  border: solid 1px #F02A39;
+}
+
+.input-field {
+  border-radius: 0;
+  border: solid 1px #F02A39;
+  border-bottom: solid 3px #F02A39;
+  background: none;
+  padding: 4px 8px;
+  caret-color: #F02A39;
+  color: #F02A39;
+}
+
+.input-field:focus {
+  outline: none;
+}
+
+#dropdown {
+  border: solid 1px #F02A39;
+  border-bottom: solid 3px #F02A39;
+  background: none;
+  padding: 4px 8px;
+  color: #F02A39;
+  cursor: pointer;
+}
+
+#checkbox {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  margin: 0;
+  width: 4px;
+  height: 4px;
+  padding: 6px;
+  transform: translateY(6px);
+  color: #f02a39;
+  border: solid 1px #f02a39;
+  background: none;
+  cursor: pointer;
+}
+
+#checkbox::before {
+  content: "";
   position: absolute;
-  top: 0;
-  right: -78%;
-  background-color: #28323f;
-  border: solid 1px #394656;
+  top: 2.5px;
+  right: 0;
+  bottom: 0;
+  left: 2.5px;
+  width: 6px;
+  height: 6px;
+  transform: scale(0);
+  transition: 50ms transform ease-in-out;
+  background-color: #f02a39;
+}
+
+#checkbox:checked::before {
+  transform: scale(1);
+}
+
+#radio-m, #radio-f {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  border-radius: 6px;
+  margin: 0;
+  width: 4px;
+  height: 4px;
+  padding: 6px;
+  transform: translateY(6px);
+  color: #f02a39;
+  border: solid 1px #f02a39;
+  background: none;
+  cursor: pointer;
+}
+
+#radio-m::before, #radio-f::before {
+  content: "";
+  position: absolute;
+  top: 2.5px;
+  right: 0;
+  bottom: 0;
+  left: 2.5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+  transform: scale(0);
+  transition: 50ms transform ease-in-out;
+  background-color: #f02a39;
+}
+
+#radio-m:checked::before, #radio-f:checked::before {
+  transform: scale(1);
+}
+
+#dropdown option {
+  outline: none;
+  background-color: #0B0B0B;
+  border: 1px solid #f02a39;
+}
+
+#pfp-upload::file-selector-button {
+  border: none;
+  background: #330E15;
+  padding: 4px 12px;
+  color: #F02A39;
+  cursor: pointer;
+  clip-path: polygon(63% 5%, 68% 0, 100% 0, 100% 100%, 5% 100%, 0 90%, 0 5%);
+}
+
+#pfp-upload::file-selector-button:hover {
+  background: #9e2037;
 }
 
 .submit-form-btn {
+  padding: 16px 0;
   margin-top: 2rem;
-  background-color: rgb(36, 204, 81);
+  background-color: #ff0f3b;
+  border: none;
+  clip-path: polygon(66.5% 12%, 68% 0, 100% 0, 100% 100%, 1.5% 100%, 0 85%, 0 12%);
   color: white;
+  position: relative;
+  z-index: 100;
+}
+
+.submit-form-btn::before {
+  content: 'SUBMIT';
+  position: absolute;
+  top: 2px;
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F02A39;
+  background-color: #330E15; 
+  clip-path: polygon(66.5% 12%, 68% 0, 100% 0, 100% 100%, 1.5% 100%, 0 85%, 0 12%);
+  z-index: 10;
+  cursor: pointer;
+}
+
+.submit-form-btn:hover::before {
+  background-color: #F02A39;
+  color: #0B0B0B;
 }
 
 .submit-form-btn:disabled {
   background-color: grey;
+}
+
+h3 {
+  color: #330E15;
 }
