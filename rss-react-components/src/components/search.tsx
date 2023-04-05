@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/search.css';
+import corener_lines from '../assets/corner-lines.svg';
 
 export default function Search() {
   const lsValue: string = localStorage.getItem('searchBarValue') || '';
@@ -22,17 +23,16 @@ export default function Search() {
 
   return (
     <div className="search-container">
+      <img src={corener_lines} className="corner-lines" alt="search bar decorations" />
       <input
         className="search-bar"
         type="text"
         value={value}
         onChange={handleInputChange}
-        placeholder="type anything, 40ch max"
+        placeholder="_type anything [40ch max.]"
         maxLength={40}
       />
-      <button className="search-button" type="submit" onClick={(e) => e.preventDefault()}>
-        search
-      </button>
+      <button className="search-button" type="submit" onClick={(e) => e.preventDefault()} />
     </div>
   );
 }
