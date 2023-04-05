@@ -31,7 +31,7 @@
   padding: 3.5rem 5.5rem 3rem 3rem;
   gap: .5rem;
   background-color: #0B0B0B;
-  color: #F02A39;
+  color: #FF7480;
   clip-path: polygon(43% 0, 45% 3%, 98% 3%, 100% 6%, 100% 100%, 3% 100%, 0 95%, 0 0);
 }
 
@@ -86,11 +86,12 @@
   width: 400px;
   top: 0;
   bottom: 0;
-  right: -412px;
+  right: -410px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
+  overflow: hidden;
   padding: 3.7rem 0 3rem 0;
 }
 
@@ -261,4 +262,18 @@
 
 h3 {
   color: #330E15;
+}
+
+.anim-typewriter{
+  position: relative;
+  opacity: 0;
+  animation: typewriter .2s normal both;
+}
+
+@keyframes typewriter{
+  0% {top: -50px;}
+  100% {
+    top: 0;
+    opacity: 100%;
+  }
 }

@@ -62,19 +62,37 @@ export default function Form() {
     <div className="form-container">
       <div className="form-decoration">
         <div className="errors-container">
-          <div>{errors.name && <span className="submit-error">{errors.name.message}</span>}</div>
           <div>
-            {errors.surname && <span className="submit-error">{errors.surname.message}</span>}
+            {errors.name && (
+              <span className="submit-error anim-typewriter">{errors.name.message}</span>
+            )}
           </div>
-          <div>{errors.date && <span className="submit-error">{errors.date.message}</span>}</div>
+          <div>
+            {errors.surname && (
+              <span className="submit-error anim-typewriter">{errors.surname.message}</span>
+            )}
+          </div>
+          <div>
+            {errors.date && (
+              <span className="submit-error anim-typewriter">{errors.date.message}</span>
+            )}
+          </div>
           <div></div>
           <div>
-            {errors.checkbox && <span className="submit-error">{errors.checkbox.message}</span>}
+            {errors.checkbox && (
+              <span className="submit-error anim-typewriter">{errors.checkbox.message}</span>
+            )}
           </div>
           <div>
-            {errors.gender && <span className="submit-error">{errors.gender.message}</span>}
+            {errors.gender && (
+              <span className="submit-error anim-typewriter">{errors.gender.message}</span>
+            )}
           </div>
-          <div>{errors.pfp && <span className="submit-error">{errors.pfp.message}</span>}</div>
+          <div>
+            {errors.pfp && (
+              <span className="submit-error anim-typewriter">{errors.pfp.message}</span>
+            )}
+          </div>
         </div>
         <div className="form-border">
           <form className="form-content" onSubmit={handleSubmit(handleFormSubmit)}>
@@ -115,7 +133,7 @@ export default function Form() {
                   pattern: {
                     value: /^[A-Z][a-z]*$/,
                     message:
-                      'First name must contain only letters and start with an uppercased letter',
+                      'First name must contain only letters and start with an capital letter',
                   },
                 })}
               />
@@ -130,8 +148,7 @@ export default function Form() {
                   required: 'Last name is required',
                   pattern: {
                     value: /^[A-Z][a-z]*$/,
-                    message:
-                      'Last name must contain only letters and start with an uppercased letter',
+                    message: 'Last name must contain only letters and start with a capital letter',
                   },
                 })}
               />
