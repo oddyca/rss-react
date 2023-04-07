@@ -43,3 +43,18 @@ export type FormData = {
 export type CardsProps = {
   cards: Card[];
 };
+
+export type TFetchedData = {
+  id: string;
+  code: string;
+  title: string;
+  description: string;
+  type: string;
+  acronym: string;
+  img: string;
+  number: number;
+};
+
+export type Patent = {
+  [key: number]: string | number;
+};
