@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Search from '../components/search';
 import FetchedData from '../components/fetched-data';
 import { TFetchedData } from '../types/types';
+import { getAPIAbort } from '../components/API/fetch';
 
 const Home = () => {
   const [dataCards, setDataCards] = useState<TFetchedData[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const getDataForCards = async () => {
+      setIsLoaded(false);
       const dataToRender = await FetchedData();
       setDataCards(dataToRender);
+      setIsLoaded(true);
     };
     getDataForCards();
+    return () => {
+      getAPIAbort.abort();
+    };
   }, []);
 
   function renderAPIData(): React.ReactNode {
@@ -36,11 +43,21 @@ const Home = () => {
       );
     });
   }
-
+  //
   return (
     <div className="home-container">
       <Search />
-      <div className="cards-container">{renderAPIData()}</div>
+      {!isLoaded ? (
+        <div className="psoload">
+          Intercepting corpo data...
+          <div className="straight"></div>
+          <div className="curve"></div>
+          <div className="center"></div>
+          <div className="inner"></div>
+        </div>
+      ) : (
+        <div className="cards-container">{renderAPIData()}</div>
+      )}
     </div>
   );
 };
