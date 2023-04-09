@@ -1,10 +1,10 @@
-import { getAPIData } from './API/fetch';
+import { getAPIData, searchAPIData } from './API/fetch';
 import { TFetchedData, Patent } from '../types/types';
 
-export default async function FetchedData() {
+export default async function FetchedData(arg: string) {
   const structuredData: TFetchedData[] = [];
 
-  const data = await getAPIData();
+  const data = arg === 'default' ? await getAPIData() : await searchAPIData(arg);
   const parsedData = await data.json();
 
   parsedData['results'].map((patent: Patent) => {

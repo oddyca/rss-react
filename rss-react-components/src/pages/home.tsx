@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Search from '../components/search';
 import FetchedData from '../components/fetched-data';
 import { TFetchedData } from '../types/types';
@@ -14,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     const getDataForCards = async () => {
       setIsLoaded(false);
-      const dataToRender = await FetchedData();
+      const dataToRender = await FetchedData('default');
       setDataCards(dataToRender);
       setIsLoaded(true);
     };
@@ -29,7 +29,6 @@ const Home = () => {
   };
 
   const transferData = (args: string[]) => {
-    //const [id, code, title, description, type, acronym, img] = args;
     setToTransfer(args);
   };
 
@@ -73,7 +72,7 @@ const Home = () => {
   }
   return (
     <div className="home-container">
-      <Search />
+      <Search setIsLoaded={setIsLoaded} setDataCards={setDataCards} />
       {!isLoaded ? (
         <div className="psoload">
           Intercepting corpo data...

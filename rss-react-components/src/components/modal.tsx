@@ -10,7 +10,7 @@ export default function Modal(props: ModalProps) {
         <div className="modal-row1">
           <div className="row1-col1">
             <p className="modal-top-right-dec">{cardData[0]}</p>
-            <h3>{cardData[2]}</h3>
+            <h3 dangerouslySetInnerHTML={{ __html: cardData[2] }}></h3>
             <p className="modal-acronym">_//:{cardData[5]}</p>
           </div>
           <div className="row1-col2">

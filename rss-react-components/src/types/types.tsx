@@ -62,3 +62,8 @@ export type Patent = {
 export interface ModalProps {
   cardData: string[];
 }
+
+export type SearchProps = {
+  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  setDataCards: React.Dispatch<React.SetStateAction<TFetchedData[]>>;
+};

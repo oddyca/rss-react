@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import FetchedData from '../components/fetched-data';
 import '../styles/search.css';
 import corener_lines from '../assets/corner-lines.svg';
+import { SearchProps } from 'types/types';
 
-export default function Search() {
+export default function Search(props: SearchProps) {
   const lsValue: string = localStorage.getItem('searchBarValue') || '';
   const [value, setValue] = useState(lsValue);
   const inputRef = useRef('');
@@ -19,6 +21,17 @@ export default function Search() {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    console.log('handlesubmit is fired');
+    const search = async () => {
+      props.setIsLoaded(false);
+      const searchResult = await FetchedData(value);
+      props.setDataCards(searchResult);
+      props.setIsLoaded(true);
+    };
+    search();
   };
 
   return (
@@ -40,7 +53,14 @@ export default function Search() {
         placeholder="_type anything [40ch max.]"
         maxLength={40}
       />
-      <button className="search-button" type="submit" onClick={(e) => e.preventDefault()} />
+      <button
+        className="search-button"
+        type="submit"
+        onClick={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      />
     </div>
   );
 }
