@@ -3,10 +3,13 @@ import Search from '../components/search';
 import FetchedData from '../components/fetched-data';
 import { TFetchedData } from '../types/types';
 import { getAPIAbort } from '../components/API/fetch';
+import Modal from '../components/modal';
 
 const Home = () => {
   const [dataCards, setDataCards] = useState<TFetchedData[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [toTransfer, setToTransfer] = useState<string[]>([]);
 
   useEffect(() => {
     const getDataForCards = async () => {
@@ -21,11 +24,35 @@ const Home = () => {
     };
   }, []);
 
+  const toggleModal = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const transferData = (args: string[]) => {
+    //const [id, code, title, description, type, acronym, img] = args;
+    setToTransfer(args);
+  };
+
   function renderAPIData(): React.ReactNode {
     return dataCards.map((card, id) => {
       return (
         <div className="cards-border" key={id}>
-          <div className="cards">
+          <div
+            className="cards"
+            onClick={() => {
+              toggleModal();
+              transferData([
+                card.id,
+                card.code,
+                card.title,
+                card.description,
+                card.type,
+                card.acronym,
+                card.img,
+                `${card.number}`,
+              ]);
+            }}
+          >
             <div className="card-title">
               <p className="card-title_decoration">
                 /LOADED
@@ -35,15 +62,15 @@ const Home = () => {
               <h3>CARD_{id + 1}</h3>
             </div>
             <div className="card-body">
-              <p>Card info</p>
-              <p>Lorem Ipsum</p>
+              <div className="image-container">
+                <img src={card.img} alt="patent img" className="card-img" />
+              </div>
             </div>
           </div>
         </div>
       );
     });
   }
-  //
   return (
     <div className="home-container">
       <Search />
@@ -57,6 +84,11 @@ const Home = () => {
         </div>
       ) : (
         <div className="cards-container">{renderAPIData()}</div>
+      )}
+      {isOpen && (
+        <div className="overlay" onClick={toggleModal}>
+          <Modal cardData={toTransfer} />
+        </div>
       )}
     </div>
   );

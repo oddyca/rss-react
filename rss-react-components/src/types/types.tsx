@@ -58,3 +58,7 @@ export type TFetchedData = {
 export type Patent = {
   [key: number]: string | number;
 };
+
+export interface ModalProps {
+  cardData: string[];
+}
