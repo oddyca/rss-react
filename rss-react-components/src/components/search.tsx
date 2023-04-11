@@ -44,22 +44,22 @@ export default function Search(props: SearchProps) {
         237320
       </p>
       <img src={corener_lines} className="corner-lines" alt="search bar decorations" />
-      <input
-        className="search-bar"
-        type="text"
-        value={value}
-        onChange={handleInputChange}
-        placeholder="_type anything [40ch max.]"
-        maxLength={40}
-      />
-      <button
-        className="search-button"
-        type="submit"
-        onClick={(e) => {
+      <form
+        onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();
         }}
-      />
+      >
+        <input
+          className="search-bar"
+          type="text"
+          value={value}
+          onChange={handleInputChange}
+          placeholder="_type anything [40ch max.]"
+          maxLength={40}
+        />
+        <button className="search-button" type="submit" />
+      </form>
     </div>
   );
 }
