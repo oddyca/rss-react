@@ -24,7 +24,6 @@ export default function Search(props: SearchProps) {
   };
 
   const handleSubmit = () => {
-    console.log('handlesubmit is fired');
     const search = async () => {
       props.setIsLoaded(false);
       const searchResult = await FetchedData(value);

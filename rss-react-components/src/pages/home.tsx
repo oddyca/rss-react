@@ -14,7 +14,8 @@ const Home = () => {
   useEffect(() => {
     const getDataForCards = async () => {
       setIsLoaded(false);
-      const dataToRender = await FetchedData('default');
+      const lsItem = localStorage.getItem('searchBarValue');
+      const dataToRender = lsItem ? await FetchedData(lsItem) : await FetchedData('default');
       setDataCards(dataToRender);
       setIsLoaded(true);
     };
