@@ -73,7 +73,12 @@ const Home = () => {
   }
   return (
     <div className="home-container">
-      <Search setIsLoaded={setIsLoaded} setDataCards={setDataCards} />
+      <Search
+        setIsLoaded={setIsLoaded}
+        setDataCards={setDataCards}
+        isLoaded={isLoaded}
+        dataCards={dataCards}
+      />
       {!isLoaded ? (
         <div className="psoload">
           Intercepting corpo data...

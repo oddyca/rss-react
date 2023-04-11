@@ -26,7 +26,12 @@ export default function Search(props: SearchProps) {
   const handleSubmit = () => {
     const search = async () => {
       props.setIsLoaded(false);
-      const searchResult = await FetchedData(value);
+      let searchResult;
+      if (value === '') {
+        searchResult = await FetchedData('default');
+      } else {
+        searchResult = await FetchedData(value);
+      }
       props.setDataCards(searchResult);
       props.setIsLoaded(true);
     };
@@ -45,6 +50,7 @@ export default function Search(props: SearchProps) {
       </p>
       <img src={corener_lines} className="corner-lines" alt="search bar decorations" />
       <form
+        className="search-form"
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();
@@ -60,6 +66,12 @@ export default function Search(props: SearchProps) {
         />
         <button className="search-button" type="submit" />
       </form>
+      {props.isLoaded && props.dataCards.length === 0 && (
+        <div className="no-result">
+          <h3>ERROR:: NOTHING_WAS_FOUND</h3>
+          <p>/reload</p>
+        </div>
+      )}
     </div>
   );
 }

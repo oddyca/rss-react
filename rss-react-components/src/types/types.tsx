@@ -66,4 +66,6 @@ export interface ModalProps {
 export type SearchProps = {
   setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   setDataCards: React.Dispatch<React.SetStateAction<TFetchedData[]>>;
+  isLoaded: boolean;
+  dataCards: [] | TFetchedData[];
 };
