@@ -1,22 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import FetchedData from '../components/fetched-data';
-import '../styles/search.css';
-import corener_lines from '../assets/corner-lines.svg';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import FetchedData from '../fetched-data';
+import corener_lines from '../../assets/corner-lines.svg';
 import { SearchProps } from 'types/types';
+import { saveInput } from './searchSlice';
+
+import '../../styles/search.css';
 
 export default function Search(props: SearchProps) {
   const lsValue: string = localStorage.getItem('searchBarValue') || '';
   const [value, setValue] = useState(lsValue);
-  const inputRef = useRef('');
+  const dispatch = useDispatch();
+  // const inputRef = useRef('');
+
+  // useEffect(() => {
+  //   return () => {
+  //     localStorage.setItem('searchBarValue', inputRef.current);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    return () => {
-      localStorage.setItem('searchBarValue', inputRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    inputRef.current = value;
+    dispatch(
+      saveInput({
+        value,
+      })
+    );
   }, [value]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

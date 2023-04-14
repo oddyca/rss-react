@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Search from '../components/search';
+import Search from '../components/Search/search';
 import FetchedData from '../components/fetched-data';
 import { TFetchedData } from '../types/types';
 import { getAPIAbort } from '../components/API/fetch';
