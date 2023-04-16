@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface SearchState {
+type SearchState = {
   value: string;
-}
+};
 
-const initialState = { value: '' } as SearchState;
+const initialState: SearchState = { value: '' };
 
 const searchSlice = createSlice({
   name: 'search',

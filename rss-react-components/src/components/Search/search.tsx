@@ -1,44 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import FetchedData from '../fetched-data';
-import corener_lines from '../../assets/corner-lines.svg';
+import { RootState } from '../../app/store';
 import { SearchProps } from 'types/types';
 import { saveInput } from './searchSlice';
 
 import '../../styles/search.css';
+import corener_lines from '../../assets/corner-lines.svg';
 
 export default function Search(props: SearchProps) {
-  const lsValue: string = localStorage.getItem('searchBarValue') || '';
-  const [value, setValue] = useState(lsValue);
   const dispatch = useDispatch();
-  // const inputRef = useRef('');
 
-  // useEffect(() => {
-  //   return () => {
-  //     localStorage.setItem('searchBarValue', inputRef.current);
-  //   };
-  // }, []);
-
-  useEffect(() => {
-    dispatch(
-      saveInput({
-        value,
-      })
-    );
-  }, [value]);
+  const searchValue = useSelector((state: RootState) => {
+    return state.rootReducer.search.value;
+  });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    const inputData = event.target.value;
+    dispatch(
+      saveInput({
+        value: inputData,
+      })
+    );
   };
 
   const handleSubmit = () => {
     const search = async () => {
       props.setIsLoaded(false);
       let searchResult;
-      if (value === '') {
+      if (searchValue === '') {
         searchResult = await FetchedData('default');
       } else {
-        searchResult = await FetchedData(value);
+        searchResult = await FetchedData(searchValue);
       }
       props.setDataCards(searchResult);
       props.setIsLoaded(true);
@@ -67,7 +60,7 @@ export default function Search(props: SearchProps) {
         <input
           className="search-bar"
           type="text"
-          value={value}
+          value={searchValue}
           onChange={handleInputChange}
           placeholder="_type anything [40ch max.]"
           maxLength={40}

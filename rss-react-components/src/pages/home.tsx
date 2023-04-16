@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Search from '../components/Search/search';
 import FetchedData from '../components/fetched-data';
 import { TFetchedData } from '../types/types';
+import { RootState } from '../app/store';
 import { getAPIAbort } from '../components/API/fetch';
 import Modal from '../components/modal';
 
@@ -11,11 +13,17 @@ const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [toTransfer, setToTransfer] = useState<string[]>([]);
 
+  const searchValue = useSelector((state: RootState) => {
+    return state.rootReducer.search.value;
+  });
+
   useEffect(() => {
     const getDataForCards = async () => {
       setIsLoaded(false);
-      const lsItem = localStorage.getItem('searchBarValue');
-      const dataToRender = lsItem ? await FetchedData(lsItem) : await FetchedData('default');
+      const searchInput = searchValue;
+      const dataToRender = searchInput
+        ? await FetchedData(searchInput)
+        : await FetchedData('default');
       setDataCards(dataToRender);
       setIsLoaded(true);
     };
@@ -23,6 +31,7 @@ const Home = () => {
     return () => {
       getAPIAbort.abort();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleModal = () => {
