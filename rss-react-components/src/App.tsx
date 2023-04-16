@@ -5,7 +5,7 @@ import Header from './components/header';
 import Home from './pages/home';
 import Page404 from './404';
 import Aboutus from './pages/aboutus';
-import Form from './pages/form';
+import Form from './pages/Form/form';
 import './styles/style.css';
 
 function App() {

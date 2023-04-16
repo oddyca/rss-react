@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import { FormState, FormData } from '../types/types';
+import React from 'react';
+import { FormData } from '../../types/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { setCards } from '../Form/formCardsSlice';
+import { RootState } from '../../app/store';
 
 import '../styles/form-styles.css';
-import Cards from '../components/cards';
+import Cards from '../../components/cards';
+import { useSelector } from 'react-redux';
 
 export default function Form() {
   const {
@@ -13,16 +16,15 @@ export default function Form() {
     formState: { errors },
   } = useForm<FormData>({ mode: 'onChange' });
 
-  const [state, setState] = useState<FormState>({
-    selection: '',
-    cards: [],
+  const formState = useSelector((state: RootState) => {
+    return state.rootReducer.formCards;
   });
 
   const handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
 
     if (id === 'dropdown') {
-      setState({ ...state, selection: value });
+      setCards({ ...formState, selection: value });
     }
   };
 
@@ -40,19 +42,16 @@ export default function Form() {
       return;
     }
 
-    setState({
+    setCards({
       selection: '',
-      cards: [
-        ...state.cards,
-        {
-          name: data.name,
-          surname: data.surname,
-          date: data.date,
-          country: data.country,
-          gender: data.gender,
-          pfp: data.pfp[0] ? URL.createObjectURL(data.pfp[0]) : '',
-        },
-      ],
+      cards: {
+        name: data.name,
+        surname: data.surname,
+        date: data.date,
+        country: data.country,
+        gender: data.gender,
+        pfp: data.pfp[0] ? URL.createObjectURL(data.pfp[0]) : '',
+      },
     });
 
     reset();
@@ -169,7 +168,7 @@ export default function Form() {
               <select
                 id="dropdown"
                 {...register('country', { onChange: handleFormInputChange })}
-                value={state.selection}
+                value={formState.selection}
               >
                 <option value="USA">USA</option>
                 <option value="United Kingdom">United Kingdom</option>
@@ -230,8 +229,8 @@ export default function Form() {
         </div>
       </div>
       <div className="form-cards">
-        {state.cards?.length !== 0 ? (
-          <Cards cards={state.cards} />
+        {formState.cards?.length !== 0 ? (
+          <Cards cards={formState.cards} />
         ) : (
           <h3>Please, fill out the form.</h3>
         )}
