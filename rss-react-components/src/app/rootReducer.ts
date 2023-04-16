@@ -1,8 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import storeInputReducer from '../components/Search/searchSlice';
+import searchInputReducer from '../components/Search/searchSlice';
+import searchResultsReducer from '../components/Search/searchResults';
 
 export const rootReducer = combineReducers({
-  search: storeInputReducer,
-  // searchResults: dataCardsReducer,
+  search: searchInputReducer,
+  searchResults: searchResultsReducer,
   // formSubmissions: formCardsReducer
 });

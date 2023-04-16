@@ -2,19 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Search from '../components/Search/search';
 import FetchedData from '../components/fetched-data';
-import { TFetchedData } from '../types/types';
+import { saveResults } from '../components/Search/searchResults';
 import { RootState } from '../app/store';
 import { getAPIAbort } from '../components/API/fetch';
 import Modal from '../components/modal';
 
 const Home = () => {
-  const [dataCards, setDataCards] = useState<TFetchedData[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [toTransfer, setToTransfer] = useState<string[]>([]);
 
   const searchValue = useSelector((state: RootState) => {
     return state.rootReducer.search.value;
+  });
+
+  const searchResults = useSelector((state: RootState) => {
+    return state.rootReducer.searchResults.value;
   });
 
   useEffect(() => {
@@ -24,7 +27,7 @@ const Home = () => {
       const dataToRender = searchInput
         ? await FetchedData(searchInput)
         : await FetchedData('default');
-      setDataCards(dataToRender);
+      saveResults(dataToRender);
       setIsLoaded(true);
     };
     getDataForCards();
@@ -43,7 +46,7 @@ const Home = () => {
   };
 
   function renderAPIData(): React.ReactNode {
-    return dataCards.map((card, id) => {
+    return searchResults.map((card, id) => {
       return (
         <div className="cards-border" key={id}>
           <div
@@ -84,9 +87,9 @@ const Home = () => {
     <div className="home-container">
       <Search
         setIsLoaded={setIsLoaded}
-        setDataCards={setDataCards}
+        setDataCards={saveResults}
         isLoaded={isLoaded}
-        dataCards={dataCards}
+        dataCards={searchResults}
       />
       {!isLoaded ? (
         <div className="psoload">
