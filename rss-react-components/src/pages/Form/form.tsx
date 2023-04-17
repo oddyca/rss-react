@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { setCards } from '../Form/formCardsSlice';
 import { RootState } from '../../app/store';
 
-import '../styles/form-styles.css';
+import '../../styles/form-styles.css';
 import Cards from '../../components/cards';
 import { useSelector } from 'react-redux';
 
