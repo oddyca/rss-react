@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Search from '../components/Search/search';
 import FetchedData from '../components/fetched-data';
 import { saveResults } from '../components/Search/searchResults';
@@ -11,6 +11,8 @@ const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [toTransfer, setToTransfer] = useState<string[]>([]);
+
+  const dispatch = useDispatch();
 
   const searchValue = useSelector((state: RootState) => {
     return state.rootReducer.search.value;
@@ -27,7 +29,12 @@ const Home = () => {
       const dataToRender = searchInput
         ? await FetchedData(searchInput)
         : await FetchedData('default');
-      saveResults(dataToRender);
+
+      dispatch(
+        saveResults({
+          value: dataToRender,
+        })
+      );
       setIsLoaded(true);
     };
     getDataForCards();
