@@ -1,0 +1,105 @@
+.cards-container {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 100%;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cards {
+  min-width: 256px;
+  min-height: 256px;
+  position: relative;
+  height: fit-content;
+  background-color: #0B0B0B; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 200;
+  clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
+  cursor: pointer;
+}
+
+.cards-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #0B0B0B;
+  z-index: 200;
+}
+
+.form-cards-border {
+  position: relative;
+  padding: 2px;
+  border-bottom: solid 3px #F02A39;
+  background-color: #F02A39;
+  z-index: 50;
+  clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
+}
+
+.form-cards-container {
+  clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
+}
+
+.card-form-body {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 8px;
+  color: #FF7480;
+  background-color: #0B0B0B;
+}
+
+.cards-border {
+  position: relative;
+  padding: 2px;
+  border-bottom: solid 3px #F02A39;
+  background-color: #F02A39;
+  z-index: 50;
+  clip-path: polygon(50% 0%, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%, 45% 5%);
+}
+
+.card-title {
+  background-color: #9D1C26;
+  color: #FF7480;
+  width: 100%;
+  padding-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+  position: relative;
+}
+
+.card-title_decoration {
+  position: absolute;
+  text-align: left;
+  top: 16px;
+  left: 8px;
+  color: #F02A39;
+  font-size: 8px;
+}
+
+.card-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 8px;
+  color: #FF7480;
+}
+
+.card-body_row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.card-pfp {
+  width: 120px;
+  height: auto;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 4px;
+}
