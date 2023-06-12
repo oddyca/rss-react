@@ -8,8 +8,8 @@ const formCardsSlice = createSlice({
   initialState,
   reducers: {
     setCards: (state, action) => {
-      state.selection = action.payload.value.selection;
-      state.cards += action.payload.value.card;
+      state.selection = action.payload.selection;
+      state.cards.push(action.payload.cards);
     },
   },
 });
