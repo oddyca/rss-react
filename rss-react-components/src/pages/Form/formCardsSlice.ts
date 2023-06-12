@@ -8,11 +8,12 @@ const formCardsSlice = createSlice({
   initialState,
   reducers: {
     setCards: (state, action) => {
-      state.selection = action.payload.value.selection;
-      state.cards += action.payload.value.card;
+      console.log('action from setCards reducer', action);
+      state.selection = action.payload.selection;
+      state.cards.push(action.payload.cards);
     },
   },
 });
 
-export const { setCards } = formCardsSlice.actions;
-export default formCardsSlice.reducer;
+export const { setCards } = formCardsSlice.actions; // to Form
+export default formCardsSlice.reducer; // to rootReducer

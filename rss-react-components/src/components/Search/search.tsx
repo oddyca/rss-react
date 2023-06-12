@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FetchedData from '../fetched-data';
-import { RootState, AppDispatch } from '../../app/store';
+import { RootState } from '../../app/store';
 import { saveResults } from '../../components/Search/searchResults';
 import { SearchProps } from 'types/types';
 import { saveInput } from './searchSlice';
@@ -10,7 +10,7 @@ import '../../styles/search.css';
 import corener_lines from '../../assets/corner-lines.svg';
 
 export default function Search(props: SearchProps) {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   const searchValue = useSelector((state: RootState) => {
     return state.rootReducer.search.value;

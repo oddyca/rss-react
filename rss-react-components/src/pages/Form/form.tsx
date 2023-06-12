@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormData } from '../../types/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { setCards } from '../Form/formCardsSlice';
@@ -6,7 +6,7 @@ import { RootState } from '../../app/store';
 
 import '../../styles/form-styles.css';
 import Cards from '../../components/cards';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Form() {
   const {
@@ -16,17 +16,13 @@ export default function Form() {
     formState: { errors },
   } = useForm<FormData>({ mode: 'onChange' });
 
-  const formState = useSelector((state: RootState) => {
+  const formStoreState = useSelector((state: RootState) => {
     return state.rootReducer.formCards;
   });
 
-  const handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { id, value } = e.target;
+  const dispatch = useDispatch();
 
-    if (id === 'dropdown') {
-      setCards({ ...formState, selection: value });
-    }
-  };
+  const [selectOption, setSelectOption] = useState('');
 
   const handleFormSubmit: SubmitHandler<FormData> = (data, event) => {
     event!.preventDefault();
@@ -42,18 +38,19 @@ export default function Form() {
       return;
     }
 
-    setCards({
-      selection: '',
-      cards: {
-        name: data.name,
-        surname: data.surname,
-        date: data.date,
-        country: data.country,
-        gender: data.gender,
-        pfp: data.pfp[0] ? URL.createObjectURL(data.pfp[0]) : '',
-      },
-    });
-
+    dispatch(
+      setCards({
+        selection: '',
+        cards: {
+          name: data.name,
+          surname: data.surname,
+          date: data.date,
+          country: data.country,
+          gender: data.gender,
+          pfp: data.pfp[0] ? URL.createObjectURL(data.pfp[0]) : '',
+        },
+      })
+    );
     reset();
   };
 
@@ -165,11 +162,7 @@ export default function Form() {
             </div>
             <div className="form-row">
               <label htmlFor="dropdown">Select country of choice:</label>
-              <select
-                id="dropdown"
-                {...register('country', { onChange: handleFormInputChange })}
-                value={formState.selection}
-              >
+              <select id="dropdown" {...register('country', { onChange: setSelectOption })}>
                 <option value="USA">USA</option>
                 <option value="United Kingdom">United Kingdom</option>
                 <option value="Canada">Canada</option>
@@ -229,8 +222,8 @@ export default function Form() {
         </div>
       </div>
       <div className="form-cards">
-        {formState.cards?.length !== 0 ? (
-          <Cards cards={formState.cards} />
+        {formStoreState.cards?.length !== 0 ? (
+          <Cards cards={formStoreState.cards} />
         ) : (
           <h3>Please, fill out the form.</h3>
         )}
